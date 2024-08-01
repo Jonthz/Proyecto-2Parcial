@@ -4,9 +4,10 @@
  */
 package ec.edu.espol.controllers;
 
-import ec.edu.espol.chess.Ficha;
-import ec.edu.espol.chess.GamePhase;
-import ec.edu.espol.chess.Jugador;
+import ec.edu.espol.model.Ficha;
+import ec.edu.espol.model.GamePhase;
+import ec.edu.espol.model.GameSubject;
+import ec.edu.espol.model.Jugador;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -66,17 +67,26 @@ public class TableroMController implements Initializable {
     private String colorEnemigo;
     private int idJugador;
     private int idEnemigo;
+    GameSubject game;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        game = new GameSubject();
+        TurnoLabelObserver turnoLabelObserver = new TurnoLabelObserver(turnoLabel);
+        game.addObserver(turnoLabelObserver);
+
+        inicializarTablero();
+        mensajeTurno();
     }
     public void setScene(Scene scene) {
         tableroScene = scene;
     }
     public void setPlayers(ArrayList<Jugador> players) {
-        this.players = players;
-        inicializarTablero();
-        mensajeTurno();
+    this.players = players;
+    inicializarTablero();
+    mensajeTurno();
     }
+
+
 
 
 
@@ -169,38 +179,20 @@ public class TableroMController implements Initializable {
     }
 
     private void mensajeTurno() {
-        Jugador jugadoractual=null;
-        for(Jugador j: players){
-            if(turno%2==0 && (j.getTipoFicha().equalsIgnoreCase("Negras"))){
-                jugadoractual=j;
-                colorActual= "negro";
-                colorEnemigo= "blanco";
-                idJugador=j.getId();
-                if(idJugador==1){
-                    idEnemigo=2;
-                }
-                else{
-                    idEnemigo=1;
-                }
-                break;
-            }
-            else if(turno%2!=0 && (!j.getTipoFicha().equalsIgnoreCase("Negras"))){
-               jugadoractual=j;
-               colorActual= "blanco";
-               colorEnemigo="negro";
-               idJugador=j.getId();
-               if(idJugador==1){
-                    idEnemigo=2;
-                }
-                else{
-                    idEnemigo=1;
-                }
-               break;
-            }
-            }
-        String mturno= "Jugador "+ jugadoractual.getId()+ " "+"Turno N° "+turno;
-        turnoLabel.setText(mturno);
+    Jugador jugadoractual = null;
+    for (Jugador j : players) {
+        if (turno % 2 == 0 && j.getTipoFicha().equalsIgnoreCase("Negras")) {
+            jugadoractual = j;
+            break;
+        } else if (turno % 2 != 0 && !j.getTipoFicha().equalsIgnoreCase("Negras")) {
+            jugadoractual = j;
+            break;
+        }
     }
+    String mturno = "Jugador " + jugadoractual.getId() + " Turno N° " + turno;
+    game.notifyObservers(mturno);
+    }
+
 
     private void iniciarNuevoTurno() {
         turno++;
