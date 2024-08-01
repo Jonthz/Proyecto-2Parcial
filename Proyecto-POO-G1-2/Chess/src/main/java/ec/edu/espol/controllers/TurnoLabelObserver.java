@@ -8,7 +8,7 @@ package ec.edu.espol.controllers;
  *
  * @author Zambrano
  */
-import ec.edu.espol.observer.Observer;
+import ec.edu.espol.util.Observer;
 import javafx.scene.control.Label;
 
 public class TurnoLabelObserver implements Observer {

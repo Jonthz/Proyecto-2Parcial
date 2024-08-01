@@ -2,14 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package ec.edu.espol.observer;
+package ec.edu.espol.util;
 
-import ec.edu.espol.model.Jugador;
+import ec.edu.espol.model.Ficha;
+import javafx.scene.image.ImageView;
 
 /**
  *
  * @author Zambrano
  */
-public interface Observer {
-        void update(String message);
+public interface MovementStrategy {
+    boolean mover(ImageView destino, ImageView[][] imageViews, Ficha ficha);
 }

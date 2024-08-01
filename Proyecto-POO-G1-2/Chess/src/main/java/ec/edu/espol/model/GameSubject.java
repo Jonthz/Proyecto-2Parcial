@@ -4,7 +4,7 @@
  */
 package ec.edu.espol.model;
 
-import ec.edu.espol.observer.Observer;
+import ec.edu.espol.util.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
